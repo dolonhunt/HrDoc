@@ -1,82 +1,23 @@
-import { SHARED_DOC_CSS, HEADER_HTML, FOOTER_HTML } from './shared-css'
+import { GOOGLE_FONTS_LINK, SHARED_DOC_CSS, HEADER_HTML, FOOTER_HTML, WATERMARK_HTML, WATERMARK_TOGGLE_SCRIPT } from './shared-css'
 
 export function employmentHTML(data: Record<string, any>): string {
+  const logo = data.logo_path || undefined;
+  const wmText = data.watermark_text || 'CONFIDENTIAL';
+  const wmEnabled = data.watermark_enabled !== false;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Employment Certificate – ${data.name || 'Employee'}</title>
+  ${GOOGLE_FONTS_LINK}
   <style>${SHARED_DOC_CSS}</style>
-  <style>
-    .body {
-      flex: 1;
-      padding: 24px 20px 24px 20px;
-    }
-    .cert-title {
-      text-align: center;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      letter-spacing: 0.05em;
-    }
-    .ref-date {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      font-size: 11px;
-    }
-    .cert-body {
-      font-size: 11px;
-      line-height: 1.85;
-      text-align: justify;
-      margin-bottom: 18px;
-    }
-    .cert-body .emp-name {
-      font-weight: 700;
-    }
-    .detail-row {
-      display: flex;
-      margin-bottom: 8px;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-    .detail-row .label {
-      width: 130px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .detail-row .value {
-      flex: 1;
-    }
-    .declaration {
-      font-size: 11px;
-      line-height: 1.75;
-      text-align: justify;
-      margin-top: 18px;
-      margin-bottom: 20px;
-    }
-    .sig-section {
-      margin-top: 30px;
-    }
-    .sig-block .sig-name {
-      font-size: 11px;
-      font-weight: 700;
-      border-top: 1.5px solid #333;
-      padding-top: 6px;
-      display: inline-block;
-    }
-    .sig-block .sig-title {
-      font-size: 10px;
-      color: #000;
-      line-height: 1.6;
-    }
-  </style>
 </head>
 <body>
 <div class="page">
-  ${HEADER_HTML()}
-  <div class="body">
+  ${WATERMARK_HTML(wmText, wmEnabled)}
+  ${HEADER_HTML(logo)}
+  <div class="pg-body" contenteditable="true" spellcheck="true">
     <div class="cert-title">EMPLOYMENT CERTIFICATE</div>
     <div class="ref-date">
       <span>Ref: ${data.ref_code || ''}</span>
@@ -122,8 +63,9 @@ export function employmentHTML(data: Record<string, any>): string {
       </div>
     </div>
   </div>
-  ${FOOTER_HTML(1, 1)}
+  ${FOOTER_HTML(1, 1, data.company_name, data.company_address)}
 </div>
+${WATERMARK_TOGGLE_SCRIPT}
 </body>
 </html>`
 }

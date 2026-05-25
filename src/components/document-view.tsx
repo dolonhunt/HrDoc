@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
 import {
   Download, Eye, Loader2, FileText, Printer, ExternalLink,
-  Users, ChevronDown, ChevronUp, TrendingUp
+  Users, ChevronDown, ChevronUp, TrendingUp, ShieldCheck
 } from "lucide-react"
 import type { Employee, CompanyConfig } from "@/lib/storage"
 import type { View, DocType } from "./app-sidebar"
@@ -287,6 +287,36 @@ export function DocumentView({ view, employees, company, selectedEmpId, onSelect
                     <div className="flex justify-between text-[12px]"><span className="font-semibold text-foreground">Net Salary</span><span className="font-bold" style={{ color: brandColor }}>৳{currentEmp.net?.toLocaleString('en-IN') || '0'}</span></div>
                   </div>
                 </Section>
+
+                <Section title="Watermark">
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-muted-foreground" />
+                        <Label className="text-[11px] font-medium">Enable Watermark</Label>
+                      </div>
+                      <button
+                        onClick={() => setOverride('watermark_enabled', !(docOverrides.watermark_enabled !== false))}
+                        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+                          docOverrides.watermark_enabled !== false ? 'bg-primary' : 'bg-muted-foreground/30'
+                        }`}
+                      >
+                        <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
+                          docOverrides.watermark_enabled !== false ? 'translate-x-[18px]' : 'translate-x-[3px]'
+                        }`} />
+                      </button>
+                    </div>
+                    <div>
+                      <Label className="text-[10px] text-muted-foreground uppercase tracking-wider">Watermark Text</Label>
+                      <Input
+                        value={docOverrides.watermark_text || 'CONFIDENTIAL'}
+                        onChange={e => setOverride('watermark_text', e.target.value)}
+                        className="h-8 text-[12px] mt-0.5"
+                        placeholder="e.g. CONFIDENTIAL"
+                      />
+                    </div>
+                  </div>
+                </Section>
               </>
             ) : (
               <div className="text-center py-8">
@@ -321,7 +351,7 @@ export function DocumentView({ view, employees, company, selectedEmpId, onSelect
         <div className="flex-1 overflow-hidden p-4">
           <div className="w-full h-full bg-background shadow-lg rounded overflow-hidden">
             {previewSrc ? (
-              <iframe key={previewSrc} src={previewSrc} className="w-full h-full border-0" title="Preview" sandbox="allow-same-origin" style={{ transform: 'scale(0.55)', transformOrigin: 'top left', width: '181.8%', height: '181.8%' }} />
+              <iframe key={previewSrc} src={previewSrc} className="w-full h-full border-0" title="Preview" sandbox="allow-same-origin allow-scripts" style={{ transform: 'scale(0.55)', transformOrigin: 'top left', width: '181.8%', height: '181.8%' }} />
             ) : (
               <div className="flex items-center justify-center h-full text-muted-foreground text-sm">Loading preview...</div>
             )}

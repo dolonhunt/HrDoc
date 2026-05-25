@@ -1,4 +1,3 @@
-import { SHARED_DOC_CSS } from './shared-css'
 import { paySlipHTML } from './payslip'
 import { salaryCertHTML } from './salary-cert'
 import { appointmentHTML } from './appointment'
@@ -69,6 +68,10 @@ function enrichData(docType: string, formData: Record<string, any>, companyData?
   d.Possessive = isFemale ? 'Her' : 'His'
 
   d.days_worked = Number(d.days_present) || Number(d.days_in_month) || 30
+
+  // Watermark settings (passed from UI)
+  if (d.watermark_enabled === undefined) d.watermark_enabled = true
+  if (!d.watermark_text) d.watermark_text = 'CONFIDENTIAL'
 
   return d
 }
