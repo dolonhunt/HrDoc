@@ -20,6 +20,7 @@ export interface Employee {
   email: string
   status: 'active' | 'inactive'
   ref_code: string
+  createdAt?: string
 }
 
 export interface CompanyConfig {

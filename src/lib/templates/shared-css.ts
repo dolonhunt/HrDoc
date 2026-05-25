@@ -142,6 +142,29 @@ export const sharedStyles = `
     .page:last-child { 
       page-break-after: avoid; 
       break-after: avoid; 
-    }
   }
 `;
+
+export const SHARED_DOC_CSS = sharedStyles;
+
+export function HEADER_HTML(logoPath: string = '/Logo-main.png'): string {
+  return `
+<header class="pg-header">
+  <img src="${logoPath}" alt="Company Logo" class="pg-logo" />
+  <hr class="pg-rule-thick" />
+</header>
+  `;
+}
+
+export function FOOTER_HTML(page: number = 1, totalPages: number = 1, companyName: string = 'The Beyond Headlines', companyAddress: string = 'Dhaka, Bangladesh'): string {
+  return `
+<div class="pg-foot-wrap">
+  <hr class="pg-rule-thin" />
+  <footer class="pg-footer">
+    <img src="/footer-pin.png" alt="" class="pg-pin" />
+    <div class="pg-foot-label">${companyName}</div>
+    <div class="pg-foot-addr">${companyAddress}</div>
+  </footer>
+</div>
+  `;
+}
