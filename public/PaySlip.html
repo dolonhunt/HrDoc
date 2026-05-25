@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pay Slip – The Beyond Headlines</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      background: #d4d4d4;
+      font-family: 'Open Sans', Arial, sans-serif;
+      font-size: 11px;
+      color: #111;
+    }
+
+    .page {
+      width: 794px;
+      height: 1123px;
+      background: #ffffff;
+      margin: 40px auto;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+
+    /* ════════ HEADER ════════ */
+    .header {
+      width: 100%;
+      padding: 14px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-img {
+      display: block;
+      height: 55px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .header-rule {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #9B2242;
+      border: none;
+      margin-top: 8px;
+    }
+
+    /* ════════ BODY ════════ */
+    .body {
+      flex: 1;
+      padding: 8px 32px 8px 32px;
+    }
+
+    .payslip-title {
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #111;
+      margin-bottom: 1px;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .payslip-subtitle {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 8px;
+    }
+
+    .ref-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 10.5px;
+      background: #f9f0f2;
+      border: 1px solid #e8c8cf;
+      border-radius: 4px;
+      padding: 5px 12px;
+    }
+
+    .ref-row span {
+      font-weight: 700;
+      color: #9B2242;
+    }
+
+    /* ════════ EMPLOYEE INFO TABLE (matches screenshot) ════════ */
+    .emp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 6px;
+      font-size: 10px;
+    }
+
+    .emp-table td {
+      border: 1px solid #ccc;
+      padding: 3px 8px;
+      vertical-align: middle;
+    }
+
+    .emp-table .label {
+      font-weight: 700;
+      color: #555;
+      white-space: nowrap;
+      background: #f9f9f9;
+    }
+
+    .emp-table .value {
+      font-weight: 600;
+      color: #111;
+    }
+
+    /* ════════ DUAL TABLE LAYOUT ════════ */
+    .tables-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .tables-row .table-col {
+      flex: 1;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+
+    thead tr {
+      background: #9B2242;
+      color: #fff;
+    }
+
+    thead th {
+      padding: 4px 8px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid #7a1a34;
+      font-size: 10px;
+    }
+
+    thead th.right {
+      text-align: right;
+    }
+
+    tbody td {
+      padding: 3px 8px;
+      border: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f9f0f2;
+    }
+
+    td.right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    td.label-cell {
+      font-weight: 600;
+      color: #444;
+    }
+
+    .summary-row td {
+      border: 1px solid #ddd;
+      padding: 5px 8px;
+    }
+
+    .summary-row td.label {
+      font-weight: 700;
+      text-align: right;
+      padding-right: 8px;
+    }
+
+    .summary-row.total-row {
+      background: #9B2242;
+      color: #fff;
+    }
+
+    .summary-row.total-row td {
+      font-weight: 800;
+      border-color: #7a1a34;
+    }
+
+    /* Net payment */
+    .net-payment-box {
+      background: #f9f0f2;
+      border: 2px solid #9B2242;
+      border-radius: 6px;
+      padding: 6px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .net-payment-box .net-label {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #9B2242;
+      letter-spacing: 0.04em;
+    }
+
+    .net-payment-box .net-amount {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    /* Breakdown table */
+    .breakdown-table {
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    /* Signature section */
+    .sig-section {
+      margin-top: 4px;
+      border-top: 2px solid #9B2242;
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .sig-box {
+      flex: 1;
+      text-align: center;
+    }
+
+    .sig-box .sig-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 4px;
+    }
+
+    .sig-line {
+      border-top: 1.5px solid #333;
+      margin-top: 70px;
+      padding-top: 4px;
+      font-size: 9px;
+      color: #666;
+    }
+
+    /* ════════ FOOTER ════════ */
+    .footer {
+      background: #9B2242;
+      padding: 8px 20px 10px 20px;
+      text-align: center;
+    }
+
+    .footer-pin {
+      display: inline-block;
+      margin-bottom: 2px;
+      line-height: 1;
+    }
+
+    .footer-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.05em;
+      margin-bottom: 1px;
+    }
+
+    .footer-address {
+      font-size: 9px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    @media print {
+      html, body { background: #fff; }
+      .page { margin: 0; box-shadow: none; width: 210mm; height: 297mm; }
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img class="logo-img" src="/Logo-main.jpg" alt="The Beyond Headlines" />
+    <hr class="header-rule" />
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <div class="payslip-title">Pay Slip</div>
+    <div class="payslip-subtitle">For the Period of November-25</div>
+
+    <div class="ref-row">
+      <div><span>Ref:</span> Pay Slip-45962TBH001</div>
+      <div><span>Page:</span> 1</div>
+    </div>
+
+    <!-- Employee Info Table (matches screenshot exactly) -->
+    <table class="emp-table">
+      <tr>
+        <td class="label" style="width:22%">Employee ID:</td>
+        <td class="value" style="width:28%">TBH001</td>
+        <td class="label" style="width:22%">Name:</td>
+        <td class="value" style="width:28%">Syed Ashfaque Haque</td>
+      </tr>
+      <tr>
+        <td class="label">Department:</td>
+        <td class="value">N/A</td>
+        <td class="label">Designation:</td>
+        <td class="value">Advisor to The Beyond Headlines</td>
+      </tr>
+      <tr>
+        <td class="label">Date of Joining:</td>
+        <td class="value">15-Oct-25</td>
+        <td class="label">PF Account No:</td>
+        <td class="value">N/A</td>
+      </tr>
+      <tr>
+        <td class="label">Days Worked:</td>
+        <td class="value">31</td>
+        <td class="label">Casual leave:</td>
+        <td class="value">N/A</td>
+      </tr>
+      <tr>
+        <td class="label">Bank Account:</td>
+        <td class="value">Bank T/F</td>
+        <td class="label">Earned Leave:</td>
+        <td class="value">N/A</td>
+      </tr>
+    </table>
+
+    <!-- Earnings & Deductions side by side -->
+    <div class="tables-row">
+      <!-- Earnings -->
+      <div class="table-col">
+        <table>
+          <thead>
+            <tr>
+              <th>Earnings</th>
+              <th class="right">Amount (BDT)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label-cell">Basic</td>
+              <td class="right">150,000.00</td>
+            </tr>
+            <tr>
+              <td class="label-cell">House Rent Allowance</td>
+              <td class="right">75,000.00</td>
+            </tr>
+            <tr>
+              <td class="label-cell">Conveyance Allowance</td>
+              <td class="right">30,000.00</td>
+            </tr>
+            <tr>
+              <td class="label-cell">Medical Allowance</td>
+              <td class="right">22,500.00</td>
+            </tr>
+            <tr>
+              <td class="label-cell">Mobile &amp; Other Allowance</td>
+              <td class="right">22,500.00</td>
+            </tr>
+            <tr class="summary-row">
+              <td class="label">Total Earned</td>
+              <td class="right" style="font-weight:700;">300,000.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Deductions -->
+      <div class="table-col">
+        <table>
+          <thead>
+            <tr>
+              <th>Deductions</th>
+              <th class="right">Amount (BDT)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label-cell">Absent Amount</td>
+              <td class="right">-</td>
+            </tr>
+            <tr>
+              <td class="label-cell">Mobile Deduction</td>
+              <td class="right">-</td>
+            </tr>
+            <tr>
+              <td class="label-cell">Advance</td>
+              <td class="right">-</td>
+            </tr>
+            <tr>
+              <td class="label-cell">PF Fund</td>
+              <td class="right">-</td>
+            </tr>
+            <tr>
+              <td class="label-cell">Source Tax</td>
+              <td class="right">43,000.00</td>
+            </tr>
+            <tr class="summary-row">
+              <td class="label">Total Deduction</td>
+              <td class="right" style="font-weight:700;">43,000.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Net Payment -->
+    <div class="net-payment-box">
+      <div class="net-label">Net Payment</div>
+      <div class="net-amount">BDT 257,000.00</div>
+    </div>
+
+    <!-- Breakdown -->
+    <table class="breakdown-table">
+      <thead>
+        <tr>
+          <th style="width:50%">Breakdown</th>
+          <th class="right" style="width:50%">Amount (BDT)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label-cell">Bank</td>
+          <td class="right">257,000.00</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Cash</td>
+          <td class="right">-</td>
+        </tr>
+        <tr class="summary-row total-row">
+          <td class="label">Total</td>
+          <td class="right">257,000.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Signatures -->
+    <div class="sig-section">
+      <div class="sig-box">
+        <div class="sig-label">Authorized By</div>
+        <div class="sig-line">Signature &amp; Seal</div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-label">Signature of Employee</div>
+        <div class="sig-line">Signature</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-pin">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+      </svg>
+    </div>
+    <div class="footer-label">Office Address:</div>
+    <div class="footer-address">
+      Eureka Kanon Villa, House-84, Level-3, Road-10/1, Block-D,<br>
+      Niketon, Gulshan-1, Dhaka-1212, Bangladesh.
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
