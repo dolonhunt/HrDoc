@@ -120,3 +120,67 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ── DocHR v3.0 Premium Styles & Animations ── */
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(-12deg); }
+  50% { transform: translateY(-8px) rotate(-11deg); }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0) rotate(6deg); }
+  50% { transform: translateY(-12px) rotate(8deg); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(150%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@keyframes scale-up {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float-fast 5s ease-in-out infinite;
+}
+
+.group-hover\:animate-shimmer:hover {
+  animation: shimmer 1.5s infinite;
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 2;
+}
+
+.animate-scale-up {
+  animation: scale-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Moving Mesh Background */
+.bg-radial-mesh {
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253, 100%, 69%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(168, 100%, 41%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(253, 100%, 69%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(168, 100%, 41%, 0.15) 0px, transparent 50%);
+  background-size: 200% 200%;
+  animation: mesh-move 20s ease infinite;
+}
+
+@keyframes mesh-move {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+

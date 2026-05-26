@@ -14,21 +14,14 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  role         String   @default("HR_Admin") // Roles: "Super_Admin", "HR_Admin", "HR_Manager", "View_Only"
+  companyId    String   @default("default")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Employee {
@@ -73,4 +66,81 @@ model CompanySetting {
   updatedAt             DateTime @updatedAt @map("updated_at")
 
   @@map("company_settings")
+}
+
+model LetterheadProfile {
+  id                String   @id @default(cuid())
+  name              String
+  isDefault         Boolean  @default(false)
+  companyName       String
+  logoPath          String   // Base64 or path
+  tagline           String?
+  address1          String
+  address2          String?
+  phone             String?
+  email             String?
+  website           String?
+  headerLayout      String   @default("LogoLeft") // "LogoLeft", "LogoCenter", "LogoRight", "FullImage"
+  fullImageHeader   String?  // Base64
+  headerBgColor     String   @default("#FFFFFF")
+  accentColor       String   @default("#FF2109")
+  footerText        String?
+  footerLayout      String   @default("TextOnly") // "TextOnly", "FullImage"
+  fullImageFooter   String?  // Base64
+  paperSize         String   @default("A4") // "A4", "Letter", "Legal"
+  marginTop         Int      @default(15) // in mm
+  marginBottom      Int      @default(15)
+  marginLeft        Int      @default(15)
+  marginRight       Int      @default(15)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("letterhead_profiles")
+}
+
+model Signatory {
+  id            String   @id @default(cuid())
+  name          String
+  title         String
+  department    String?
+  method        String   @default("draw") // "draw", "upload", "type"
+  signatureData String?  // Canvas drawings (coordinates/base64), uploaded images or typed cursive font sizes
+  typedFont     String?  // Selected font family
+  typedText     String?  // Typed text
+  sealPath      String?  // Company stamp Base64
+  email         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("signatories")
+}
+
+model DocumentHistory {
+  id            String   @id @default(cuid())
+  refNo         String   @unique @map("ref_no")
+  employeeId    String   @map("employee_id")
+  employeeName  String   @map("employee_name")
+  docType       String   @map("doc_type")
+  generatedBy   String   @map("generated_by")
+  status        String   @default("Draft") // "Draft", "Final", "Sent", "Archived"
+  content       String?
+  watermarkText String?  @map("watermark_text")
+  signatoryId   String?  @map("signatory_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("document_history")
+}
+
+model Preference {
+  id             String   @id @default("default")
+  language       String   @default("en")
+  dateFormat     String   @default("DD/MM/YYYY") @map("date_format")
+  theme          String   @default("system")
+  exportFormat   String   @default("pdf") @map("export_format")
+  autoSaveDrafts Boolean  @default(true) @map("auto_save_drafts")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("preferences")
 }

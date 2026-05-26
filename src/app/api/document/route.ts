@@ -41,7 +41,16 @@ const FALLBACK_DATA: Record<string, Record<string, any>> = {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const docType = searchParams.get('type') || 'payslip'
-  const validTypes = ['payslip', 'salary_cert', 'appointment', 'experience', 'employment_cert']
+  const validTypes = [
+    'offer_letter', 'appointment', 'joining_letter', 'probation_confirm', 'id_card_letter',
+    'employment_cert', 'salary_cert', 'noc_cert', 'bank_intro', 'embassy_support',
+    'payslip', 'salary_increment', 'bonus_letter', 'arrear_letter',
+    'show_cause', 'warning_letter', 'suspension_letter', 'termination_letter',
+    'resignation_accept', 'experience', 'relieving_letter', 'clearance_cert', 'final_settlement',
+    'promotion_letter', 'pip_letter', 'appreciation_letter',
+    'leave_approval', 'lwp_notice',
+    'custom_freeform', 'custom_builder'
+  ]
   if (!validTypes.includes(docType)) {
     return NextResponse.json({ error: 'Invalid document type' }, { status: 400 })
   }
@@ -56,7 +65,16 @@ export async function POST(request: NextRequest) {
     const docType = body.type || 'payslip'
     const formData = body.data || {}
     const companyData = body.company || null
-    const validTypes = ['payslip', 'salary_cert', 'appointment', 'experience', 'employment_cert']
+    const validTypes = [
+      'offer_letter', 'appointment', 'joining_letter', 'probation_confirm', 'id_card_letter',
+      'employment_cert', 'salary_cert', 'noc_cert', 'bank_intro', 'embassy_support',
+      'payslip', 'salary_increment', 'bonus_letter', 'arrear_letter',
+      'show_cause', 'warning_letter', 'suspension_letter', 'termination_letter',
+      'resignation_accept', 'experience', 'relieving_letter', 'clearance_cert', 'final_settlement',
+      'promotion_letter', 'pip_letter', 'appreciation_letter',
+      'leave_approval', 'lwp_notice',
+      'custom_freeform', 'custom_builder'
+    ]
     if (!validTypes.includes(docType)) {
       return NextResponse.json({ error: 'Invalid document type' }, { status: 400 })
     }
