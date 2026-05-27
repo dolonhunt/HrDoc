@@ -13,7 +13,18 @@ if (process.env.VERCEL) {
   const sourceDbPath = path.join(process.cwd(), 'prisma', 'db', 'custom.db')
   
   try {
+    let shouldCopy = false
     if (!fs.existsSync(tmpDbPath)) {
+      shouldCopy = true
+    } else if (fs.existsSync(sourceDbPath)) {
+      const sourceStats = fs.statSync(sourceDbPath)
+      const tmpStats = fs.statSync(tmpDbPath)
+      if (sourceStats.mtimeMs > tmpStats.mtimeMs) {
+        shouldCopy = true
+      }
+    }
+
+    if (shouldCopy) {
       console.log(`Prisma Init: Copying database from ${sourceDbPath} to ${tmpDbPath}`)
       const tmpDir = path.dirname(tmpDbPath)
       if (!fs.existsSync(tmpDir)) {
@@ -28,7 +39,7 @@ if (process.env.VERCEL) {
         console.warn(`Prisma Init: Source database not found at ${sourceDbPath}`)
       }
     } else {
-      console.log(`Prisma Init: Database already exists in /tmp`)
+      console.log(`Prisma Init: Database in /tmp is up-to-date`)
     }
     databaseUrl = `file:${tmpDbPath}`
   } catch (error) {
